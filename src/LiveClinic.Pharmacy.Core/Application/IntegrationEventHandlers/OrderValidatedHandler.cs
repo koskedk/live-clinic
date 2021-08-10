@@ -11,6 +11,7 @@ using MediatR;
 
 namespace LiveClinic.Pharmacy.Core.Application.EventHandlers
 {
+    //TODO: what next
     public class OrderValidatedHandler : INotificationHandler<OrderValidated>
     {
         private readonly IBus _bus;
