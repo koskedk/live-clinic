@@ -9,7 +9,7 @@ using Serilog;
 
 namespace LiveClinic.Billing.Core.Application.Invoicing.EventHandlers
 {
-    public class DrugOrderValidatedHandler:IConsumer<DrugOrderValidated>
+    public class DrugOrderValidatedHandler:IConsumer<OrderAccepted>
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
@@ -20,7 +20,7 @@ namespace LiveClinic.Billing.Core.Application.Invoicing.EventHandlers
             _mapper = mapper;
         }
 
-        public async Task Consume(ConsumeContext<DrugOrderValidated> context)
+        public async Task Consume(ConsumeContext<OrderAccepted> context)
         {
             Log.Debug(new string('*',40));
             Log.Debug($"{context.Message.OrderNo}");

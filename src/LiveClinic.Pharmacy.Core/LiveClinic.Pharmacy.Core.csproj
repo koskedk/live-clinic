@@ -23,6 +23,9 @@
 
     <ItemGroup>
       <Folder Include="Application\Drugs" />
+      <Folder Include="Application\Orders\Dtos" />
+      <Folder Include="Application\Orders\EventHandlers" />
+      <Folder Include="Application\Orders\Queries" />
     </ItemGroup>
 
 </Project>

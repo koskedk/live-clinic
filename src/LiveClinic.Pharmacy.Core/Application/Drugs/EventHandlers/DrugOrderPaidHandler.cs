@@ -25,8 +25,6 @@ namespace LiveClinic.Pharmacy.Core.Application.EventHandlers
             Log.Debug($"{context.Message.InvoiceId}");
             Log.Debug(new string('#',40));
 
-
-
             await _mediator.Send(new AllowDispense(context.Message.OrderId,context.Message.InvoiceId));
         }
     }

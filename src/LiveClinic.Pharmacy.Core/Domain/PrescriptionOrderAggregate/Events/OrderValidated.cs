@@ -1,18 +1,17 @@
 using System;
-using LiveClinic.Contracts;
 using MediatR;
 
 namespace LiveClinic.Pharmacy.Core.Domain.DrugAggregate.Events
 {
     public class OrderValidated : INotification
     {
-        public DrugOrderValidated DrugOrder { get; }
+        public Guid PrescriptionOrderId  { get; }
         public bool IsAvailable { get; }
         public DateTime TimeStamp { get; } = new DateTime();
 
-        public OrderValidated(DrugOrderValidated order, bool isAvailable)
+        public OrderValidated(Guid prescriptionOrderId, bool isAvailable)
         {
-            DrugOrder = order;
+            PrescriptionOrderId = prescriptionOrderId;
             IsAvailable = isAvailable;
         }
     }

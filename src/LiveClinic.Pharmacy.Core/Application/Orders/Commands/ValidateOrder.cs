@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CSharpFunctionalExtensions;
 using LiveClinic.Contracts;
-using LiveClinic.Pharmacy.Core.Domain;
 using LiveClinic.Pharmacy.Core.Domain.DrugAggregate;
 using LiveClinic.Pharmacy.Core.Domain.DrugAggregate.Events;
 using LiveClinic.Pharmacy.Core.Domain.PrescriptionOrderAggregate;
@@ -41,7 +40,7 @@ namespace LiveClinic.Pharmacy.Core.Application.Commands
 
         public async Task<Result> Handle(ValidateOrder request, CancellationToken cancellationToken)
         {
-            var list = new List<bool>();
+            var allOk = new List<bool>();
 
             try
             {
@@ -53,18 +52,17 @@ namespace LiveClinic.Pharmacy.Core.Application.Commands
                     var drug =  _drugRepository.LoadAll(x => x.Code == d.DrugCode).FirstOrDefault();
                     if (null == drug)
                         throw new Exception("Drug NOT Found!");
-                    list.Add(drug.IsStocked(d.Quantity,d.Days));
+                    allOk.Add(drug.IsStocked(d.Quantity,d.Days));
                     d.DrugId = drug.Id;
                 }
 
+                // save order
                 await _prescriptionOrderRepository.CreateOrUpdateAsync(request.Order);
 
-                var order = _mapper.Map<DrugOrderValidated>(request.Order);
 
-                var orderValidated = new OrderValidated(order, !list.Any(x => false));
-
+                var orderValidated = new OrderValidated(request.Order.Id, !allOk.Any(x => false));
                 await _mediator.Publish(orderValidated);
-
+                
                 return Result.Success();
             }
             catch (Exception e)

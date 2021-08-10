@@ -16,8 +16,7 @@ namespace LiveClinic.Billing.Core.Application.Invoicing.Dtos
             CreateMap<Invoice, InvoiceSummaryDto>();
             CreateMap<Invoice, InvoiceDto>();
             CreateMap<OrderItem, OrderInvoiceItemDto>();
-            CreateMap<DrugOrderValidated, OrderInvoiceDto>()
-                .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.Medications));
+            CreateMap<OrderAccepted, OrderInvoiceDto>();
 
             CreateMap<InvoiceItem, InvoiceItemDto>()
                 .ForMember(dest => dest.DrugCode, opt => opt.MapFrom(src => src.PriceCatalog.DrugCode));

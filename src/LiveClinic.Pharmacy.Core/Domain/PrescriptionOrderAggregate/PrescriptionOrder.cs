@@ -8,6 +8,7 @@ namespace LiveClinic.Pharmacy.Core.Domain.PrescriptionOrderAggregate
     public class PrescriptionOrder:AggregateRoot<Guid>
     {
         public Guid OrderId { get; set; }
+        public DateTime OrderDate { get; set; }
         public string OrderNo { get;set;   }
         public string Patient { get; set; }
         public string Provider { get; set; }
