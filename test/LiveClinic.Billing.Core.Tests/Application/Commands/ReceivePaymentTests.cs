@@ -32,12 +32,12 @@ namespace LiveClinic.Billing.Core.Tests.Application.Commands
         }
 
         [Test]
-        public void should_RecievePay()
+        public void should_ReceivePay()
         {
             var pay = new PaymentDto()
             {
                 InvoiceId = _invoice.Id,
-               Amount   = 200
+               Amount   = 300
             };
             var res = _mediator.Send(new ReceivePayment(pay)).Result;
             Assert.True(res.IsSuccess);

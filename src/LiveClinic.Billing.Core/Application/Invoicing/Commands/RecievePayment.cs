@@ -39,29 +39,18 @@ namespace LiveClinic.Billing.Core.Application.Invoicing.Commands
             {
                 var payment = new Payment(Money.FromAmount(request.PaymentDto.Amount), request.PaymentDto.InvoiceId);
 
-                var invoice =  _invoiceRepository
-                    .LoadAll(x=>x.Id==request.PaymentDto.InvoiceId)
-                    .FirstOrDefault();
-
-                if (null == invoice)
-                    throw new Exception("Invoice not found!");
-
-                invoice.MakePayment(payment);
-                var items = invoice.Items;
-                invoice.Clear();
-                await _invoiceRepository.CreateOrUpdateAsync(invoice);
-                await _invoiceRepository.CreateOrUpdateAsync<Payment, Guid>(new[] { payment });
+                var invoice = _invoiceRepository.UpdatePayments(request.PaymentDto.InvoiceId, payment);
 
                 if (invoice.Status == InvoiceStatus.Paid)
                     await _mediator.Publish(new PaymentReceived(invoice.OrderId, invoice.Id, payment.Id));
 
-
                 return Result.Success();
+
             }
             catch (Exception e)
             {
                 var msg = $"Error {request.GetType().Name}";
-                Log.Error(msg, e);
+                Log.Error(e, msg);
                 return Result.Failure(e.Message);
             }
         }

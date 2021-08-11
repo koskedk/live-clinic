@@ -52,7 +52,7 @@ namespace LiveClinic.Pharmacy.Core.Application.Orders.Commands
             catch (Exception e)
             {
                 var msg = $"Error {request.GetType().Name}";
-                Log.Error(msg, e);
+                Log.Error(e, msg);
                 return Result.Failure(msg);
             }
         }

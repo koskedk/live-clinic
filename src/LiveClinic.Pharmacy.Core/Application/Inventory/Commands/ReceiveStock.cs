@@ -53,7 +53,7 @@ namespace LiveClinic.Pharmacy.Core.Application.Inventory.Commands
             catch (Exception e)
             {
                 var msg = $"Error {request.GetType().Name}";
-                Log.Error(msg, e);
+                Log.Error(e, msg);
                 return Result.Failure(msg);
             }
         }

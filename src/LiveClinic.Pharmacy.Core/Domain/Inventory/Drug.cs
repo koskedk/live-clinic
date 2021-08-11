@@ -33,14 +33,16 @@ namespace LiveClinic.Pharmacy.Core.Domain.Inventory
             Transactions.Add(tx);
             return tx;
         }
-
-        public StockTransaction Dispense(double quantity,string order="")
+        public StockTransaction Dispense(string batchNo,double totalQuantity,string order="")
         {
-            return Dispense(string.Empty, quantity, order);
+            var tx = new StockTransaction(batchNo, Movement.Dispensed, totalQuantity, Id,order);
+            Transactions.Add(tx);
+            return tx;
         }
-        public StockTransaction Dispense(string batchNo,double quantity,string order="")
+        public StockTransaction Dispense(string batchNo,double quantity,double days,string order="")
         {
-            var tx = new StockTransaction(batchNo, Movement.Dispensed, quantity, Id,order);
+            double totalQuantity = quantity * days;
+            var tx = new StockTransaction(batchNo, Movement.Dispensed, totalQuantity, Id,order);
             Transactions.Add(tx);
             return tx;
         }
@@ -52,9 +54,9 @@ namespace LiveClinic.Pharmacy.Core.Domain.Inventory
         {
             return Transactions.Where(x => x.Movement == Movement.Dispensed).Sum(x => x.Quantity);
         }
-        public bool IsStocked(double requestQuantity,double days)
+        public bool IsStocked(double quantityPrescribed)
         {
-            return QuantityStock >= requestQuantity * days;
+            return QuantityStock >= quantityPrescribed;
         }
         public override string ToString()
         {

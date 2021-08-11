@@ -8,7 +8,8 @@ namespace LiveClinic.Billing.Core.Application.Invoicing.Dtos
     public class InvoiceSummaryDto
     {
         public Guid Id { get; set; }
-        public string InvoiceNo { get; set; }
+        public string InvoiceNo { get ; set; }
+        public Guid  OrderId { get; set; }
         public DateTime InvoiceDate { get; set; }
         public string Patient { get; set; }
         public InvoiceStatus Status { get; set; }

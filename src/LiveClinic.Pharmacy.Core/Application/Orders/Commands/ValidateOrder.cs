@@ -48,7 +48,7 @@ namespace LiveClinic.Pharmacy.Core.Application.Orders.Commands
                     var drug =  _drugRepository.LoadAll(x => x.Code == d.DrugCode).FirstOrDefault();
                     if (null == drug)
                         throw new Exception("Drug NOT Found!");
-                    d.IsStocked = drug.IsStocked(d.Quantity, d.Days);
+                    d.IsStocked = drug.IsStocked(d.QuantityPrescribed);
                     d.DrugId = drug.Id;
                 }
 
@@ -63,7 +63,7 @@ namespace LiveClinic.Pharmacy.Core.Application.Orders.Commands
             catch (Exception e)
             {
                 var msg = $"Error {request.GetType().Name}";
-                Log.Error(msg, e);
+                Log.Error(e, msg);
                 return Result.Failure(msg);
             }
         }

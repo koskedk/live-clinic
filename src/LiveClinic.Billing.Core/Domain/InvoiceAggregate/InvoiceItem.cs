@@ -20,10 +20,10 @@ namespace LiveClinic.Billing.Core.Domain.InvoiceAggregate
         {
         }
 
-        public InvoiceItem(Guid priceCatalogId, double quantity, Money quotePrice, Guid invoiceId)
+        public InvoiceItem(Guid priceCatalogId, double quantity, double days, Money quotePrice, Guid invoiceId)
         {
             PriceCatalogId = priceCatalogId;
-            Quantity = quantity;
+            Quantity = quantity * days;
             QuotePrice = quotePrice;
             InvoiceId = invoiceId;
         }

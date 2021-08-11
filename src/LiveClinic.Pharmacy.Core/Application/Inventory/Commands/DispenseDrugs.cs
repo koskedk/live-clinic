@@ -53,7 +53,7 @@ namespace LiveClinic.Pharmacy.Core.Application.Inventory.Commands
                     if (null == drug)
                         throw new Exception("Drug NOT Found!");
 
-                    var dispenseStock = drug.Dispense(d.Quantity, order.OrderId.ToString());
+                    var dispenseStock = drug.Dispense("", d.Quantity,d.Days, order.OrderId.ToString());
 
                     await _drugRepository.CreateOrUpdateAsync<StockTransaction,Guid>(new[] {dispenseStock});
                 }
@@ -65,7 +65,7 @@ namespace LiveClinic.Pharmacy.Core.Application.Inventory.Commands
             catch (Exception e)
             {
                 var msg = $"Error {request.GetType().Name}";
-                Log.Error(msg, e);
+                Log.Error(e, msg);
                 return Result.Failure(msg);
             }
         }
