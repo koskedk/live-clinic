@@ -33,7 +33,12 @@ namespace LiveClinic.Pharmacy.Core.Domain.Inventory
             Transactions.Add(tx);
             return tx;
         }
-
+        public StockTransaction Dispense(string batchNo,double totalQuantity,string order="")
+        {
+            var tx = new StockTransaction(batchNo, Movement.Dispensed, totalQuantity, Id,order);
+            Transactions.Add(tx);
+            return tx;
+        }
         public StockTransaction Dispense(string batchNo,double quantity,double days,string order="")
         {
             double totalQuantity = quantity * days;
