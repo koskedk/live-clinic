@@ -1,9 +1,7 @@
 using System;
 using LiveClinic.Billing.Core;
-using LiveClinic.Billing.Core.Application.Invoicing.EventHandlers;
 using LiveClinic.Billing.Infrastructure;
 using LiveClinic.Billing.Infrastructure.Persistence;
-using LiveClinic.SharedKernel.Config;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using LiveClinic.SharedKernel.Infrastructure.Persistence;
@@ -49,32 +47,15 @@ namespace LiveClinic.Billing
             });
 
             services.AddPersistence(Configuration);
+            services.AddEventBus(Configuration)
+                .AddMassTransitHostedService();
             services.AddCore();
+
             services.Configure<ForwardedHeadersOptions>(options =>
             {
                 options.ForwardedHeaders =
                     ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
             });
-
-            var positionOptions = new RabbitMqOptions();
-            Configuration.GetSection(RabbitMqOptions.RabbitMq).Bind(positionOptions);
-
-            services.AddMassTransit(mt =>
-            {
-                mt.SetKebabCaseEndpointNameFormatter();
-                mt.AddConsumersFromNamespaceContaining<DrugOrderValidatedHandler>();
-                mt.UsingRabbitMq((context, cfg) =>
-                {
-                    cfg.Host(positionOptions.Host, positionOptions.VirtualHost, h =>
-                        {
-                            h.Username(positionOptions.Username);
-                            h.Password(positionOptions.Password);
-                        }
-                    );
-                    cfg.ConfigureEndpoints(context);
-                });
-            });
-            services.AddMassTransitHostedService();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

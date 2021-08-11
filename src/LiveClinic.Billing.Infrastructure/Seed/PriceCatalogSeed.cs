@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using LiveClinic.Billing.Core.Domain.Common;
 using LiveClinic.Billing.Core.Domain.PriceAggregate;
+using LiveClinic.SharedKernel.Common;
 
 namespace LiveClinic.Billing.Infrastructure.Seed
 {

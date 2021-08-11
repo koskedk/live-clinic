@@ -1,8 +1,8 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="LiveCLINIC" type="CompoundRunConfigurationType">
-    <toRun name="LiveClinic.Consultation" type="LaunchSettings" />
-    <toRun name="LiveClinic.Pharmacy" type="LaunchSettings" />
     <toRun name="LiveClinic.Billing" type="LaunchSettings" />
+    <toRun name="LiveClinic.Pharmacy" type="LaunchSettings" />
+    <toRun name="LiveClinic.Consultation" type="LaunchSettings" />
     <method v="2" />
   </configuration>
 </component>

@@ -4,14 +4,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using LiveClinic.Contracts;
-using LiveClinic.Pharmacy.Core.Domain.DrugAggregate.Events;
-using LiveClinic.Pharmacy.Core.Domain.PrescriptionOrderAggregate;
+using LiveClinic.Pharmacy.Core.Domain.Orders;
+using LiveClinic.Pharmacy.Core.Domain.Orders.Events;
 using MassTransit;
 using MediatR;
 
-namespace LiveClinic.Pharmacy.Core.Application.EventHandlers
+namespace LiveClinic.Pharmacy.Core.Application.IntegrationEventHandlers
 {
-    //TODO: what next
     public class OrderValidatedHandler : INotificationHandler<OrderValidated>
     {
         private readonly IBus _bus;

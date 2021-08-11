@@ -19,7 +19,7 @@ namespace LiveClinic.Consultation.Infrastructure.Migrations
                 .HasAnnotation("ProductVersion", "5.0.8")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("LiveClinic.Consultation.Core.Domain.OrderAggregate.Medication", b =>
+            modelBuilder.Entity("LiveClinic.Consultation.Core.Domain.Prescriptions.Medication", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -47,7 +47,7 @@ namespace LiveClinic.Consultation.Infrastructure.Migrations
                     b.ToTable("Medications");
                 });
 
-            modelBuilder.Entity("LiveClinic.Consultation.Core.Domain.OrderAggregate.Prescription", b =>
+            modelBuilder.Entity("LiveClinic.Consultation.Core.Domain.Prescriptions.Prescription", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -73,16 +73,16 @@ namespace LiveClinic.Consultation.Infrastructure.Migrations
                     b.ToTable("Prescriptions");
                 });
 
-            modelBuilder.Entity("LiveClinic.Consultation.Core.Domain.OrderAggregate.Medication", b =>
+            modelBuilder.Entity("LiveClinic.Consultation.Core.Domain.Prescriptions.Medication", b =>
                 {
-                    b.HasOne("LiveClinic.Consultation.Core.Domain.OrderAggregate.Prescription", null)
+                    b.HasOne("LiveClinic.Consultation.Core.Domain.Prescriptions.Prescription", null)
                         .WithMany("Medications")
                         .HasForeignKey("PrescriptionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("LiveClinic.Consultation.Core.Domain.OrderAggregate.Prescription", b =>
+            modelBuilder.Entity("LiveClinic.Consultation.Core.Domain.Prescriptions.Prescription", b =>
                 {
                     b.Navigation("Medications");
                 });

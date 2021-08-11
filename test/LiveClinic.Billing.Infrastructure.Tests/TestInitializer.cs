@@ -35,6 +35,7 @@ namespace LiveClinic.Billing.Infrastructure.Tests
                 .AddDbContext<BillingDbContext>(x => x.UseSqlite(connection));
 
             services.AddPersistence(config);
+            services.AddEventBus(config, false);
 
             ServiceProvider = services.BuildServiceProvider();
 

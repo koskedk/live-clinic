@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using LiveClinic.Pharmacy.Core.Application.Commands;
-using LiveClinic.Pharmacy.Core.Application.Dtos;
-using LiveClinic.Pharmacy.Core.Application.Queries;
+using LiveClinic.Pharmacy.Core.Application.Inventory.Commands;
+using LiveClinic.Pharmacy.Core.Application.Inventory.Dtos;
+using LiveClinic.Pharmacy.Core.Application.Inventory.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
@@ -51,6 +51,26 @@ namespace LiveClinic.Pharmacy.Controllers
             try
             {
                 var results = await _mediator.Send(new ReceiveStock(newStockDtos));
+
+                if (results.IsSuccess)
+                    return Ok();
+
+                throw new Exception(results.Error);
+            }
+            catch (Exception e)
+            {
+                var msg = $"Error occured";
+                Log.Error(e, msg);
+                return StatusCode(500, $"{msg} {e.Message}");
+            }
+        }
+
+        [HttpPost("FullDispense")]
+        public async Task<IActionResult> Post(Guid orderId)
+        {
+            try
+            {
+                var results = await _mediator.Send(new DispenseDrugs(orderId));
 
                 if (results.IsSuccess)
                     return Ok();

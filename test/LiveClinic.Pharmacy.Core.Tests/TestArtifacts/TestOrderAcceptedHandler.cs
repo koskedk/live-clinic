@@ -9,10 +9,11 @@ namespace LiveClinic.Pharmacy.Core.Tests.TestArtifacts
 {
     public class TestOrderAcceptedHandler:IConsumer<OrderAccepted>
     {
-        public async Task Consume(ConsumeContext<OrderAccepted> context)
+        public  Task Consume(ConsumeContext<OrderAccepted> context)
         {
             Assert.True(context.Message.OrderItems.Any());
             Log.Debug($"Accepted: {context.Message.OrderNo}");
+            return Task.CompletedTask;
         }
     }
 }

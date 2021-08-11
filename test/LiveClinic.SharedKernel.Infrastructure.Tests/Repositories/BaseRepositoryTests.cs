@@ -72,11 +72,37 @@ namespace LiveClinic.SharedKernel.Infrastructure.Tests.Repositories
         }
 
         [Test]
+        public void should_Get_All_By_Predicate_Tracked()
+        {
+            var testName = _testEntities.First().Name;
+
+            var testEntities = _testEntityRepository.GetAllTracked(x => x.Name.ToLower().Contains(testName.ToLower())).ToList();
+            Assert.True(testEntities.Count > 0);
+            foreach (var testCar in testEntities)
+            {
+                Log.Debug(testCar.ToString());
+            }
+        }
+
+        [Test]
         public void should_Get_All_Generic_By_Predicate()
         {
             var testName = _testEntities.Last().TestCarModels.First().Name;
 
             var testEntities = _testEntityRepository.GetAll<TestCarModel,Guid>(x => x.Name.ToLower().Contains(testName.ToLower())).ToList();
+            Assert.True(testEntities.Count > 0);
+            foreach (var testCarModel in testEntities)
+            {
+                Log.Debug(testCarModel.ToString());
+            }
+        }
+
+        [Test]
+        public void should_Get_All_Generic_By_Predicate_Tracked()
+        {
+            var testName = _testEntities.Last().TestCarModels.First().Name;
+
+            var testEntities = _testEntityRepository.GetAllTracked<TestCarModel,Guid>(x => x.Name.ToLower().Contains(testName.ToLower())).ToList();
             Assert.True(testEntities.Count > 0);
             foreach (var testCarModel in testEntities)
             {

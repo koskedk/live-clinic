@@ -22,9 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Application\Drugs" />
-      <Folder Include="Application\Orders\EventHandlers" />
-      <Folder Include="Application\Orders\Queries" />
+      <Folder Include="Application\Inventory" />
     </ItemGroup>
 
 </Project>

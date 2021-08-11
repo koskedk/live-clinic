@@ -1,10 +1,8 @@
 using System.Linq;
-using LiveClinic.Pharmacy.Core.Domain.DrugAggregate;
-using LiveClinic.Pharmacy.Core.Domain.PrescriptionOrderAggregate;
+using LiveClinic.Pharmacy.Core.Domain.Orders;
 using LiveClinic.Pharmacy.Infrastructure.Tests.TestArtifacts;
 using NUnit.Framework;
 using Microsoft.Extensions.DependencyInjection;
-using Serilog;
 
 namespace LiveClinic.Pharmacy.Infrastructure.Tests.Repositories
 {

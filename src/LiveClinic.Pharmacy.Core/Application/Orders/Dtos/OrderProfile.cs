@@ -1,11 +1,9 @@
 using AutoMapper;
 using LiveClinic.Contracts;
-using LiveClinic.Pharmacy.Core.Domain;
-using LiveClinic.Pharmacy.Core.Domain.DrugAggregate;
-using LiveClinic.Pharmacy.Core.Domain.PrescriptionOrderAggregate;
+using LiveClinic.Pharmacy.Core.Domain.Orders;
 using OrderItem = LiveClinic.Contracts.OrderItem;
 
-namespace LiveClinic.Pharmacy.Core.Application.Dtos
+namespace LiveClinic.Pharmacy.Core.Application.Orders.Dtos
 {
     public class OrderProfile : Profile
     {

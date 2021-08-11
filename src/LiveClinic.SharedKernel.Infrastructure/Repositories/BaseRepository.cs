@@ -25,7 +25,7 @@ namespace LiveClinic.SharedKernel.Infrastructure.Repositories
             return DbSet.FindAsync(id).AsTask();
         }
 
-        public Task<TC> GetAsync<TC, TId1>(TId1 id) where TC : Entity<TId1>
+        public Task<TC> GetAsync<TC, TGId>(TGId id) where TC : Entity<TGId>
         {
             return Context.Set<TC>().FindAsync(id).AsTask();
         }
@@ -39,9 +39,19 @@ namespace LiveClinic.SharedKernel.Infrastructure.Repositories
             return DbSet.Where(predicate).AsNoTracking();
         }
 
-        public IQueryable<TC> GetAll<TC,TId>(Expression<Func<TC, bool>> predicate) where TC : Entity<TId>
+        public virtual IQueryable<T> GetAllTracked(Expression<Func<T, bool>> predicate)
+        {
+            return DbSet.Where(predicate);
+        }
+
+        public virtual IQueryable<TC> GetAll<TC,TGId>(Expression<Func<TC, bool>> predicate) where TC : Entity<TGId>
         {
             return Context.Set<TC>().Where(predicate).AsNoTracking();
+        }
+
+        public virtual IQueryable<TC> GetAllTracked<TC, TGId>(Expression<Func<TC, bool>> predicate) where TC : Entity<TGId>
+        {
+            return Context.Set<TC>().Where(predicate);
         }
 
         public virtual async Task<bool> ExistsAsync(T entity)
@@ -49,7 +59,7 @@ namespace LiveClinic.SharedKernel.Infrastructure.Repositories
             return null !=  await GetAll(x=>x.Id.Equals(entity.Id)).FirstOrDefaultAsync();
         }
 
-        public async Task<bool> ExistsAsync<TC,TId>(TC entity) where TC : Entity<TId>
+        public async Task<bool> ExistsAsync<TC,TGId>(TC entity) where TC : Entity<TGId>
         {
             return null != await Context.Set<TC>().AsNoTracking().FirstOrDefaultAsync(x=>x.Id.Equals(entity.Id));
         }
@@ -84,14 +94,14 @@ namespace LiveClinic.SharedKernel.Infrastructure.Repositories
             await Context.SaveChangesAsync();
         }
 
-        public virtual async Task CreateOrUpdateAsync<TC,TId>(IEnumerable<TC> entities) where TC : Entity<TId>
+        public virtual async Task CreateOrUpdateAsync<TC,TGId>(IEnumerable<TC> entities) where TC : Entity<TGId>
         {
             var updates = new List<TC>();
             var inserts = new List<TC>();
 
             foreach (var entity in entities)
             {
-                var exists = await ExistsAsync<TC,TId>(entity);
+                var exists = await ExistsAsync<TC,TGId>(entity);
                 if (exists)
                     updates.Add(entity);
                 else
@@ -107,6 +117,16 @@ namespace LiveClinic.SharedKernel.Infrastructure.Repositories
             await Context.SaveChangesAsync();
         }
 
+        public Task UpdateAsync(T entity)
+        {
+            bool tracking = Context.ChangeTracker.Entries<T>().Any(x => x.Entity.Id.Equals(entity.Id));
+            if (!tracking)
+            {
+                Context.Update(entity);
+            }
+            return Context.SaveChangesAsync();
+        }
+
         public virtual async Task Delete(T entity)
         {
             DbSet.Remove(entity);
@@ -118,13 +138,13 @@ namespace LiveClinic.SharedKernel.Infrastructure.Repositories
             await Context.SaveChangesAsync();
         }
 
-        public virtual async  Task DeleteById(TId id)
+        public virtual async Task DeleteById(TId id)
         {
             var entity = await GetAsync(id);
-            if(null==entity)
+            if (null == entity)
                 return;
 
-            Delete(entity);
+            await Delete(entity);
         }
 
         public virtual async Task DeleteById(IEnumerable<TId> ids)

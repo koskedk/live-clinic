@@ -1,6 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
-using LiveClinic.Pharmacy.Core.Domain.DrugAggregate.Events;
+using LiveClinic.Pharmacy.Core.Domain.Orders.Events;
 using MediatR;
 using NUnit.Framework;
 using Serilog;

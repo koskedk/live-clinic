@@ -4,6 +4,7 @@ using LiveClinic.Billing.Core.Application.Invoicing.Dtos;
 using LiveClinic.Billing.Core.Domain.InvoiceAggregate;
 using LiveClinic.Billing.Core.Tests.TestArtifacts;
 using LiveClinic.Billing.Infrastructure.Persistence;
+using LiveClinic.Contracts;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
@@ -29,8 +30,9 @@ namespace LiveClinic.Billing.Core.Tests.Application.Commands
         {
             _mediator = TestInitializer.ServiceProvider.GetService<IMediator>();
         }
+
         [Test]
-        public void should_GenerateInvoice()
+        public void should_RecievePay()
         {
             var pay = new PaymentDto()
             {
@@ -39,6 +41,7 @@ namespace LiveClinic.Billing.Core.Tests.Application.Commands
             };
             var res = _mediator.Send(new ReceivePayment(pay)).Result;
             Assert.True(res.IsSuccess);
+            Assert.That(TestInitializer.TestConsumerOrderPaid.Consumed.Any<OrderPaid>().Result);
         }
     }
 }

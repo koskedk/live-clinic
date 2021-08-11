@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using LiveClinic.Consultation.Core.Tests.TestArtifacts;
 using LiveClinic.Consultation.Infrastructure;
-using MassTransit;
+using MassTransit.Testing;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -16,6 +17,8 @@ namespace LiveClinic.Consultation.Core.Tests
     public class TestInitializer
     {
         public static IServiceProvider ServiceProvider;
+        public static InMemoryTestHarness TestHarness;
+        public static ConsumerTestHarness<TestOrderGeneratedHandler> TestConsumerOrderGenerated;
 
         [OneTimeSetUp]
         public void Init()
@@ -41,6 +44,12 @@ namespace LiveClinic.Consultation.Core.Tests
             services.AddCore();
             ServiceProvider = services.BuildServiceProvider();
             ClearDb();
+            SetupBus().Wait();
+        }
+        [OneTimeTearDown]
+        public void End()
+        {
+            StopBus().Wait();
         }
         public static void ClearDb()
         {
@@ -54,8 +63,20 @@ namespace LiveClinic.Consultation.Core.Tests
 
             foreach (IEnumerable<object> t in entities)
                 context.AddRange(t);
-            
+
             context.SaveChanges();
+        }
+
+        private  static async Task SetupBus()
+        {
+            TestHarness = ServiceProvider.GetService<InMemoryTestHarness>();
+            TestConsumerOrderGenerated=TestHarness.Consumer<TestOrderGeneratedHandler>();
+            await TestHarness.Start();
+        }
+
+        private  static async Task StopBus()
+        {
+            await TestHarness.Stop();
         }
     }
 }

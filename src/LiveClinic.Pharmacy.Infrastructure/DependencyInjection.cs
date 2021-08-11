@@ -1,7 +1,7 @@
 using System;
-using LiveClinic.Pharmacy.Core.Application.EventHandlers;
-using LiveClinic.Pharmacy.Core.Domain.DrugAggregate;
-using LiveClinic.Pharmacy.Core.Domain.PrescriptionOrderAggregate;
+using LiveClinic.Pharmacy.Core.Application.IntegrationEventHandlers;
+using LiveClinic.Pharmacy.Core.Domain.Inventory;
+using LiveClinic.Pharmacy.Core.Domain.Orders;
 using LiveClinic.Pharmacy.Infrastructure.Repositories;
 using LiveClinic.SharedKernel.Config;
 using MassTransit;
@@ -29,7 +29,7 @@ namespace LiveClinic.Pharmacy.Infrastructure
         }
 
         public static IServiceCollection AddEventBus(this IServiceCollection services, IConfiguration configuration,
-            bool initBus = true,Type ctype=null)
+            bool initBus = true,Type consumerType=null)
         {
             if (initBus)
             {
@@ -57,7 +57,8 @@ namespace LiveClinic.Pharmacy.Infrastructure
                 services.AddMassTransitInMemoryTestHarness(mt =>
                 {
                     mt.AddConsumersFromNamespaceContaining<OrderGeneratedHandler>();
-                    mt.AddConsumersFromNamespaceContaining(ctype);
+                    if(null!=consumerType)
+                        mt.AddConsumersFromNamespaceContaining(consumerType);
                 });
             }
             return services;

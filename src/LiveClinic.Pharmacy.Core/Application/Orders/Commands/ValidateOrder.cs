@@ -1,18 +1,16 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using CSharpFunctionalExtensions;
-using LiveClinic.Contracts;
-using LiveClinic.Pharmacy.Core.Domain.DrugAggregate;
-using LiveClinic.Pharmacy.Core.Domain.DrugAggregate.Events;
-using LiveClinic.Pharmacy.Core.Domain.PrescriptionOrderAggregate;
+using LiveClinic.Pharmacy.Core.Domain.Inventory;
+using LiveClinic.Pharmacy.Core.Domain.Orders;
+using LiveClinic.Pharmacy.Core.Domain.Orders.Events;
 using MediatR;
 using Serilog;
 
-namespace LiveClinic.Pharmacy.Core.Application.Commands
+namespace LiveClinic.Pharmacy.Core.Application.Orders.Commands
 {
     public class ValidateOrder : IRequest<Result>
     {
@@ -40,9 +38,7 @@ namespace LiveClinic.Pharmacy.Core.Application.Commands
 
         public async Task<Result> Handle(ValidateOrder request, CancellationToken cancellationToken)
         {
-            bool allAvaliable = true;
-
-            try
+             try
             {
                 if (request.Order.HasNoAssignedIds())
                     request.Order.AssignIds();
@@ -58,7 +54,6 @@ namespace LiveClinic.Pharmacy.Core.Application.Commands
 
                 // save order
                 await _prescriptionOrderRepository.CreateOrUpdateAsync(request.Order);
-
 
                 var orderValidated = new OrderValidated(request.Order.Id, request.Order.AllInStock);
                 await _mediator.Publish(orderValidated);

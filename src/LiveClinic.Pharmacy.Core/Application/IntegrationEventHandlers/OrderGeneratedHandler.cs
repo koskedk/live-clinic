@@ -1,13 +1,13 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using LiveClinic.Contracts;
-using LiveClinic.Pharmacy.Core.Application.Commands;
-using LiveClinic.Pharmacy.Core.Domain.PrescriptionOrderAggregate;
+using LiveClinic.Pharmacy.Core.Application.Orders.Commands;
+using LiveClinic.Pharmacy.Core.Domain.Orders;
 using MassTransit;
 using MediatR;
 using Serilog;
 
-namespace LiveClinic.Pharmacy.Core.Application.EventHandlers
+namespace LiveClinic.Pharmacy.Core.Application.IntegrationEventHandlers
 {
     public class OrderGeneratedHandler:IConsumer<OrderGenerated>
     {

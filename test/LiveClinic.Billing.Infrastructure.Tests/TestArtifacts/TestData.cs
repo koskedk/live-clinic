@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using FizzWare.NBuilder;
 using LiveClinic.Billing.Core.Application.Invoicing.Dtos;
-using LiveClinic.Billing.Core.Domain.Common;
 using LiveClinic.Billing.Core.Domain.InvoiceAggregate;
 using LiveClinic.Billing.Core.Domain.PriceAggregate;
+using LiveClinic.SharedKernel.Common;
 
 namespace LiveClinic.Billing.Infrastructure.Tests.TestArtifacts
 {
@@ -24,7 +24,7 @@ namespace LiveClinic.Billing.Infrastructure.Tests.TestArtifacts
                     .With(x => x.DrugCode = priceCatalogs[i].DrugCode)
                     .With(x => x.UnitPrice = new Money(price, "KES"))
                     .Build().ToList();
-                invoiceDto.Items = models;
+                invoiceDto.OrderItems = models;
                 i++;
             }
 

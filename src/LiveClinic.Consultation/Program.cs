@@ -28,7 +28,7 @@ namespace LiveClinic.Consultation
 
             try
             {
-                Log.Information($"Starting LiveBILL.Import...");;
+                Log.Information($"Starting LiveCLINIC.Consultation...");;
                 CreateHostBuilder(args).Build().Run();
             }
             catch (Exception ex)

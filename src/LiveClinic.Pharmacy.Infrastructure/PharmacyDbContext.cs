@@ -1,7 +1,6 @@
 using System.Linq;
-using LiveClinic.Pharmacy.Core.Domain;
-using LiveClinic.Pharmacy.Core.Domain.DrugAggregate;
-using LiveClinic.Pharmacy.Core.Domain.PrescriptionOrderAggregate;
+using LiveClinic.Pharmacy.Core.Domain.Inventory;
+using LiveClinic.Pharmacy.Core.Domain.Orders;
 using LiveClinic.Pharmacy.Infrastructure.Seed;
 using LiveClinic.SharedKernel.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;

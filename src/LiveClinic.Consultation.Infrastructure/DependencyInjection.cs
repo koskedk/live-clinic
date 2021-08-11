@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+using LiveClinic.Consultation.Core.Application.IntegrationEventHandlers;
 using LiveClinic.Consultation.Core.Domain.Prescriptions;
 using LiveClinic.Consultation.Infrastructure.Repositories;
 using LiveClinic.SharedKernel.Config;
@@ -30,7 +28,7 @@ namespace LiveClinic.Consultation.Infrastructure
         }
 
         public static IServiceCollection AddEventBus(this IServiceCollection services, IConfiguration configuration,
-            bool initBus = true)
+            bool initBus = true,Type consumerType=null)
         {
             if (initBus)
             {
@@ -40,6 +38,7 @@ namespace LiveClinic.Consultation.Infrastructure
                 services.AddMassTransit(mt =>
                 {
                     mt.SetKebabCaseEndpointNameFormatter();
+                    mt.AddConsumersFromNamespaceContaining<OrderFulfilledHandler>();
                     mt.UsingRabbitMq((context, cfg) =>
                     {
                         cfg.Host(positionOptions.Host, positionOptions.VirtualHost, h =>
@@ -54,7 +53,12 @@ namespace LiveClinic.Consultation.Infrastructure
             }
             else
             {
-                services.AddMassTransitInMemoryTestHarness();
+                services.AddMassTransitInMemoryTestHarness(mt =>
+                {
+                    mt.AddConsumersFromNamespaceContaining<OrderFulfilledHandler>();
+                    if(null!=consumerType)
+                        mt.AddConsumersFromNamespaceContaining(consumerType);
+                });
             }
             return services;
         }

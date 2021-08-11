@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Reflection;
-using LiveClinic.Pharmacy.Core.Application.Commands;
-using LiveClinic.Pharmacy.Core.Application.Dtos;
+using LiveClinic.Pharmacy.Core.Application.Inventory.Commands;
+using LiveClinic.Pharmacy.Core.Application.Inventory.Dtos;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,12 +15,12 @@ namespace LiveClinic.Pharmacy.Core
 
             if (null != mediatrAssemblies)
             {
-                mediatrAssemblies.Add(typeof(DispenseDrugHandler).Assembly);
+                mediatrAssemblies.Add(typeof(DispenseDrugsHandler).Assembly);
                 services.AddMediatR(mediatrAssemblies.ToArray());
             }
             else
             {
-                services.AddMediatR(typeof(DispenseDrugHandler).Assembly);
+                services.AddMediatR(typeof(DispenseDrugsHandler).Assembly);
             }
 
             return services;

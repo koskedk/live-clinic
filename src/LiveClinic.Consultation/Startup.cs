@@ -1,7 +1,6 @@
 using System;
 using LiveClinic.Consultation.Core;
 using LiveClinic.Consultation.Infrastructure;
-using LiveClinic.SharedKernel.Config;
 using LiveClinic.SharedKernel.Infrastructure.Persistence;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;

@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using FizzWare.NBuilder;
-using LiveClinic.Pharmacy.Core.Domain.DrugAggregate;
-using LiveClinic.Pharmacy.Core.Domain.PrescriptionOrderAggregate;
+using LiveClinic.Pharmacy.Core.Domain.Inventory;
+using LiveClinic.Pharmacy.Core.Domain.Orders;
 
 namespace LiveClinic.Pharmacy.Core.Tests.TestArtifacts
 {

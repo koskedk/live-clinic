@@ -1,8 +1,6 @@
 using System;
 using LiveClinic.Pharmacy.Core;
-using LiveClinic.Pharmacy.Core.Application.EventHandlers;
 using LiveClinic.Pharmacy.Infrastructure;
-using LiveClinic.SharedKernel.Config;
 using LiveClinic.SharedKernel.Infrastructure.Persistence;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;

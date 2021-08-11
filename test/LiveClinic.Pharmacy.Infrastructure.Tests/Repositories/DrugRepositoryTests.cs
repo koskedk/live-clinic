@@ -1,5 +1,5 @@
 using System.Linq;
-using LiveClinic.Pharmacy.Core.Domain.DrugAggregate;
+using LiveClinic.Pharmacy.Core.Domain.Inventory;
 using NUnit.Framework;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;

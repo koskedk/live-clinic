@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
 using LiveClinic.Billing.Core.Application.Invoicing.Dtos;
 using LiveClinic.Billing.Core.Domain.InvoiceAggregate;
+using LiveClinic.Billing.Core.Domain.InvoiceAggregate.Events;
 using LiveClinic.Billing.Core.Domain.PriceAggregate;
 using MediatR;
 using Serilog;
@@ -47,6 +48,8 @@ namespace LiveClinic.Billing.Core.Application.Invoicing.Commands
                 var invoice = Invoice.Generate(request.InvoiceDto,prices);
 
                await _invoiceRepository.CreateOrUpdateAsync(invoice);
+
+               await _mediator.Publish(new InvoiceGenerated(invoice.Id),cancellationToken);
 
                return Result.Success();
             }
