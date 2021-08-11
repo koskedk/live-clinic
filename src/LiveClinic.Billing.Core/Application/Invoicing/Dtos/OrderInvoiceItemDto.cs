@@ -10,5 +10,6 @@ namespace LiveClinic.Billing.Core.Application.Invoicing.Dtos
 
         public string Name { get; private set; }
         public double Quantity  { get; set; }
+        public double Days { get; set; }
     }
 }

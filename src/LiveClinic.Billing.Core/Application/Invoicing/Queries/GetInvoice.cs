@@ -38,7 +38,7 @@ namespace LiveClinic.Billing.Core.Application.Invoicing.Queries
             catch (Exception e)
             {
                 var msg = $"Error {request.GetType().Name}";
-                Log.Error(msg, e);
+                Log.Error(e, msg);
                 return Task.FromResult(Result.Failure<List<InvoiceSummaryDto>>(msg));
             }
         }

@@ -59,6 +59,9 @@ namespace LiveClinic.Billing.Core.Domain.InvoiceAggregate
 
         public void MakePayment(Payment payment)
         {
+            if (payment.InvoiceId != Id)
+                throw new Exception("payment mismatch");
+
             Payments.Add(payment);
             Status = Balance.Amount == 0 ? InvoiceStatus.Paid : InvoiceStatus.NotPaid;
         }
@@ -74,7 +77,7 @@ namespace LiveClinic.Billing.Core.Domain.InvoiceAggregate
             foreach (var dto in itemDtos)
             {
                 var price = prices.FirstOrDefault(x => x.DrugCode == dto.DrugCode);
-                Items.Add(new InvoiceItem(price.Id, dto.Quantity, dto.UnitPrice, Id));
+                Items.Add(new InvoiceItem(price.Id, dto.Quantity,dto.Days,  dto.UnitPrice, Id));
             }
         }
 
@@ -83,7 +86,7 @@ namespace LiveClinic.Billing.Core.Domain.InvoiceAggregate
             foreach (var dto in itemDtos)
             {
                 var price = prices.FirstOrDefault(x => x.DrugCode == dto.DrugCode);
-                Items.Add(new InvoiceItem(price.Id, dto.Quantity,
+                Items.Add(new InvoiceItem(price.Id, dto.Quantity,dto.Days,
                     null != price ? price.UnitPrice : new Money(0, "KES"), Id));
             }
         }

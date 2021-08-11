@@ -15,6 +15,23 @@ namespace LiveClinic.Billing.Infrastructure.Repositories
         {
         }
 
+        public Invoice UpdatePayments(Guid id, Payment payment)
+        {
+            var ctx = Context as BillingDbContext;
+
+            var inv = ctx.Invoices.Include(x => x.Items)
+                .Include(x => x.Payments)
+                .SingleOrDefault(x => x.Id == id);
+            inv.MakePayment(payment);
+            ctx.Entry(inv).State = EntityState.Modified;
+            inv.Items.ForEach(x => ctx.Entry(x).State = EntityState.Unchanged);
+            ctx.Entry(payment).State = EntityState.Added;
+            ctx.Invoices.Update(inv);
+            ctx.SaveChanges();
+
+            return inv;
+        }
+
         public List<Invoice> LoadAll(Expression<Func<Invoice, bool>> predicate = null)
         {
             if(null==predicate)

@@ -49,7 +49,7 @@ namespace LiveClinic.Consultation.Core.Application.Prescriptions.Commands
             catch (Exception e)
             {
                 var msg = $"Error {request.GetType().Name}";
-                Log.Error(msg, e);
+                Log.Error(e, msg);
                 return Result.Failure(msg);
             }
         }
