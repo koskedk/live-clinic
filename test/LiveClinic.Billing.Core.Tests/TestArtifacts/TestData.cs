@@ -41,6 +41,7 @@ namespace LiveClinic.Billing.Core.Tests.TestArtifacts
             {
                 var models = Builder<OrderInvoiceItemDto>.CreateListOfSize(itemCount).All()
                     .With(x => x.DrugCode = priceCatalogs[i].DrugCode)
+                    .With(x=>x.Days=1)
                     .With(x=>x.Quantity=qty)
                     .Build().ToList();
                 testCar.OrderItems = models;

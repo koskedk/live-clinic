@@ -33,7 +33,7 @@ namespace LiveClinic.Billing.Core.Tests.Domain.InvoiceAggregate
         public void should_Update_Status()
         {
             var invoice = _invoices.Last();
-            invoice.MakePayment(new Payment(new Money(20,"KES"),invoice.Id));
+            invoice.MakePayment(new Payment(new Money(120,"KES"),invoice.Id));
             Assert.True(invoice.Balance.Amount>0);
             Assert.True(invoice.Status==InvoiceStatus.NotPaid);
 
