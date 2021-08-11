@@ -11,16 +11,6 @@ namespace LiveClinic.Pharmacy.Core.Application.Dtos
     {
         public PharmacyProfile()
         {
-            //Contracts in
-            CreateMap<OrderItem, PrescriptionOrderItem>();
-            CreateMap<OrderGenerated, PrescriptionOrder>();
-            // out
-            CreateMap<PrescriptionOrderItem, OrderItem>();
-            CreateMap<PrescriptionOrder, OrderAccepted>();
-            CreateMap<PrescriptionOrder, OrderRejected>();
-
-            ///////////////
-
             CreateMap<StockTransaction, StockTransactionDto>();
             CreateMap<Drug, InventoryDto>();
             CreateMap<OrderGenerated, OrderAccepted>();

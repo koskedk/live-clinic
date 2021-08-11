@@ -1,3 +1,4 @@
+using System;
 using LiveClinic.Pharmacy.Core.Application.EventHandlers;
 using LiveClinic.Pharmacy.Core.Domain.DrugAggregate;
 using LiveClinic.Pharmacy.Core.Domain.PrescriptionOrderAggregate;
@@ -28,7 +29,7 @@ namespace LiveClinic.Pharmacy.Infrastructure
         }
 
         public static IServiceCollection AddEventBus(this IServiceCollection services, IConfiguration configuration,
-            bool initBus = true)
+            bool initBus = true,Type ctype=null)
         {
             if (initBus)
             {
@@ -56,6 +57,7 @@ namespace LiveClinic.Pharmacy.Infrastructure
                 services.AddMassTransitInMemoryTestHarness(mt =>
                 {
                     mt.AddConsumersFromNamespaceContaining<OrderGeneratedHandler>();
+                    mt.AddConsumersFromNamespaceContaining(ctype);
                 });
             }
             return services;

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
+using LiveClinic.Pharmacy.Core.Tests.TestArtifacts;
 using LiveClinic.Pharmacy.Infrastructure;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
@@ -35,8 +37,8 @@ namespace LiveClinic.Pharmacy.Core.Tests
                 .AddDbContext<PharmacyDbContext>(x => x.UseSqlite(connection));
 
             services.AddPersistence(config);
-            services.AddEventBus(config, false);
-            services.AddCore();
+            services.AddEventBus(config, false,typeof(TestOrderAcceptedHandler));
+            services.AddCore(new List<Assembly>(){ typeof(TestOrderValidatedEventHandler).Assembly});
 
             ServiceProvider = services.BuildServiceProvider();
 

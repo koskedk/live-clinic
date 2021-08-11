@@ -22,7 +22,7 @@ namespace LiveClinic.Pharmacy.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RPrescriptionOrders",
+                name: "PrescriptionOrders",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -34,7 +34,7 @@ namespace LiveClinic.Pharmacy.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RPrescriptionOrders", x => x.Id);
+                    table.PrimaryKey("PK_PrescriptionOrders", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -77,9 +77,9 @@ namespace LiveClinic.Pharmacy.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_PrescriptionOrderItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PrescriptionOrderItems_RPrescriptionOrders_PrescriptionOrderId",
+                        name: "FK_PrescriptionOrderItems_PrescriptionOrders_PrescriptionOrderId",
                         column: x => x.PrescriptionOrderId,
-                        principalTable: "RPrescriptionOrders",
+                        principalTable: "PrescriptionOrders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -104,7 +104,7 @@ namespace LiveClinic.Pharmacy.Infrastructure.Migrations
                 name: "StockTransactions");
 
             migrationBuilder.DropTable(
-                name: "RPrescriptionOrders");
+                name: "PrescriptionOrders");
 
             migrationBuilder.DropTable(
                 name: "Drugs");

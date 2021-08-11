@@ -40,7 +40,7 @@ namespace LiveClinic.Pharmacy.Core.Application.Commands
 
         public async Task<Result> Handle(ValidateOrder request, CancellationToken cancellationToken)
         {
-            var allOk = new List<bool>();
+            bool allAvaliable = true;
 
             try
             {
@@ -52,7 +52,7 @@ namespace LiveClinic.Pharmacy.Core.Application.Commands
                     var drug =  _drugRepository.LoadAll(x => x.Code == d.DrugCode).FirstOrDefault();
                     if (null == drug)
                         throw new Exception("Drug NOT Found!");
-                    allOk.Add(drug.IsStocked(d.Quantity,d.Days));
+                    d.IsStocked = drug.IsStocked(d.Quantity, d.Days);
                     d.DrugId = drug.Id;
                 }
 
@@ -60,9 +60,9 @@ namespace LiveClinic.Pharmacy.Core.Application.Commands
                 await _prescriptionOrderRepository.CreateOrUpdateAsync(request.Order);
 
 
-                var orderValidated = new OrderValidated(request.Order.Id, !allOk.Any(x => false));
+                var orderValidated = new OrderValidated(request.Order.Id, request.Order.AllInStock);
                 await _mediator.Publish(orderValidated);
-                
+
                 return Result.Success();
             }
             catch (Exception e)

@@ -13,7 +13,7 @@ namespace LiveClinic.Pharmacy.Infrastructure
         public DbSet<Drug> Drugs { get; set; }
         public DbSet<StockTransaction> StockTransactions { get; set; }
 
-        public DbSet<PrescriptionOrder> RPrescriptionOrders { get; set; }
+        public DbSet<PrescriptionOrder> PrescriptionOrders { get; set; }
         public DbSet<PrescriptionOrderItem> PrescriptionOrderItems{ get; set; }
 
         public PharmacyDbContext(DbContextOptions<PharmacyDbContext> options) : base(options)

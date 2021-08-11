@@ -19,7 +19,6 @@ namespace LiveClinic.Consultation.Core.Tests.Application.Commands
         private IMediator _mediator;
         private InMemoryTestHarness _harness;
         private ConsumerTestHarness<TestOrderGeneratedHandler> _consumerHarness;
-        private OrderGenerated _orderGenerated;
 
         [SetUp]
         public async Task SetUp()

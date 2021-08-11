@@ -17,7 +17,6 @@ namespace LiveClinic.Pharmacy.Infrastructure.Tests.Repositories
             _drugRepository = TestInitializer.ServiceProvider.GetService<IDrugRepository>();
         }
 
-
         [Test]
         public void should_Load_All_Drugs()
         {

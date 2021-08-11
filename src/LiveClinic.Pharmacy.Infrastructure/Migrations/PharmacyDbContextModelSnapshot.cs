@@ -96,7 +96,7 @@ namespace LiveClinic.Pharmacy.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RPrescriptionOrders");
+                    b.ToTable("PrescriptionOrders");
                 });
 
             modelBuilder.Entity("LiveClinic.Pharmacy.Core.Domain.OrderAggregate.PrescriptionOrderItem", b =>

@@ -15,6 +15,8 @@ namespace LiveClinic.Pharmacy.Core.Domain.PrescriptionOrderAggregate
 
         [NotMapped]
         public double QuantityPrescribed => Quantity * Days;
+        [NotMapped]
+        public bool IsStocked { get; set; }
 
         public void UpdateDispense(int dispensed)
         {

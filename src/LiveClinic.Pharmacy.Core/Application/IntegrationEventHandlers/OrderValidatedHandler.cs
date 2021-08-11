@@ -34,17 +34,15 @@ namespace LiveClinic.Pharmacy.Core.Application.EventHandlers
             if (null == prep)
                 throw new Exception("Order not found");
 
-            if (!notification.IsAvailable)
+            if (notification.IsAvailable)
             {
-                var ordEvent=_mapper.Map<OrderRejected>(prep);
-
-                await _bus.Publish<OrderRejected>(ordEvent);
+                var orderAccepted=_mapper.Map<OrderAccepted>(prep);
+                await _bus.Publish<OrderAccepted>(orderAccepted);
                 return;
             }
 
-            var ordAcpEvent=_mapper.Map<OrderRejected>(prep);
-
-            await _bus.Publish<OrderAccepted>(ordAcpEvent);
+            var orderRejected=_mapper.Map<OrderRejected>(prep);
+            await _bus.Publish<OrderRejected>(orderRejected);
         }
     }
 }
