@@ -1,6 +1,6 @@
 using System;
-using LiveClinic.Billing.Core.Domain.Common;
 using LiveClinic.SharedKernel;
+using LiveClinic.SharedKernel.Common;
 using LiveClinic.SharedKernel.Domain;
 
 namespace LiveClinic.Billing.Core.Domain.InvoiceAggregate

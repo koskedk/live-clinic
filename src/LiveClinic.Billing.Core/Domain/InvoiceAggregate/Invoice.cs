@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using LiveClinic.Billing.Core.Application.Invoicing.Dtos;
-using LiveClinic.Billing.Core.Domain.Common;
 using LiveClinic.Billing.Core.Domain.PriceAggregate;
 using LiveClinic.SharedKernel;
+using LiveClinic.SharedKernel.Common;
 using LiveClinic.SharedKernel.Domain;
 
 namespace LiveClinic.Billing.Core.Domain.InvoiceAggregate
@@ -38,23 +38,24 @@ namespace LiveClinic.Billing.Core.Domain.InvoiceAggregate
             Status = InvoiceStatus.NotPaid;
         }
 
-        public static Invoice Generate(InvoiceDto invoiceDto, List<PriceCatalog> prices)
-        {
-            var inv = new Invoice(invoiceDto.Patient, invoiceDto.OrderId, invoiceDto.OrderNo);
-
-            inv.AddItems(invoiceDto.Items,prices);
-
-            return inv;
-        }
-
         public static Invoice Generate(OrderInvoiceDto invoiceDto, List<PriceCatalog> prices)
         {
             var inv = new Invoice(invoiceDto.Patient, invoiceDto.OrderId, invoiceDto.OrderNo);
 
-            inv.AddItems(invoiceDto.Items,prices);
+            inv.AddItems(invoiceDto.OrderItems,prices);
 
             return inv;
         }
+
+        public static Invoice Generate(InvoiceDto invoiceDto, List<PriceCatalog> prices)
+        {
+            var inv = new Invoice(invoiceDto.Patient, invoiceDto.OrderId, invoiceDto.OrderNo);
+
+            inv.AddItems(invoiceDto.OrderItems,prices);
+
+            return inv;
+        }
+
 
         public void MakePayment(Payment payment)
         {

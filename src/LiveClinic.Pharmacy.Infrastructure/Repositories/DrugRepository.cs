@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using LiveClinic.Pharmacy.Core.Domain.DrugAggregate;
+using LiveClinic.Pharmacy.Core.Domain.Inventory;
 using LiveClinic.SharedKernel.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 

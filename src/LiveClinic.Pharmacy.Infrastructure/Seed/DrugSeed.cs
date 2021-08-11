@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using LiveClinic.Pharmacy.Core.Domain.DrugAggregate;
+using LiveClinic.Pharmacy.Core.Domain.Inventory;
 
 namespace LiveClinic.Pharmacy.Infrastructure.Seed
 {

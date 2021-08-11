@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using LiveClinic.Billing.Core.Domain.Common;
 using LiveClinic.Billing.Core.Domain.InvoiceAggregate;
+using LiveClinic.SharedKernel.Common;
 using LiveClinic.SharedKernel.Domain;
 
 namespace LiveClinic.Billing.Core.Domain.PriceAggregate

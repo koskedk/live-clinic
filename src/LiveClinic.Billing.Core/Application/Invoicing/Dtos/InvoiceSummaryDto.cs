@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using LiveClinic.Billing.Core.Domain.Common;
 using LiveClinic.Billing.Core.Domain.InvoiceAggregate;
+using LiveClinic.SharedKernel.Common;
 
 namespace LiveClinic.Billing.Core.Application.Invoicing.Dtos
 {

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using LiveClinic.Billing.Core.Tests.TestArtifacts;
 using LiveClinic.Billing.Infrastructure;
 using LiveClinic.Billing.Infrastructure.Persistence;
+using MassTransit.Testing;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -15,6 +18,8 @@ namespace LiveClinic.Billing.Core.Tests
     public class TestInitializer
     {
         public static IServiceProvider ServiceProvider;
+        public static InMemoryTestHarness TestHarness;
+        public static ConsumerTestHarness<TestOrderPaidHandler> TestConsumerOrderPaid;
 
         [OneTimeSetUp]
         public void Init()
@@ -36,10 +41,18 @@ namespace LiveClinic.Billing.Core.Tests
                 .AddDbContext<BillingDbContext>(x => x.UseSqlite(connection));
 
             services.AddPersistence(config);
+            services.AddEventBus(config, false);
             services.AddCore();
 
             ServiceProvider = services.BuildServiceProvider();
             ClearDb();
+            SetupBus().Wait();
+        }
+
+        [OneTimeTearDown]
+        public void End()
+        {
+            StopBus().Wait();
         }
 
         public static void ClearDb()
@@ -56,6 +69,18 @@ namespace LiveClinic.Billing.Core.Tests
                 context.AddRange(t);
 
             context.SaveChanges();
+        }
+
+        private  static async Task SetupBus()
+        {
+            TestHarness = ServiceProvider.GetService<InMemoryTestHarness>();
+            TestConsumerOrderPaid = TestHarness.Consumer<TestOrderPaidHandler>();
+            await TestHarness.Start();
+        }
+
+        private  static async Task StopBus()
+        {
+            await TestHarness.Stop();
         }
     }
 }

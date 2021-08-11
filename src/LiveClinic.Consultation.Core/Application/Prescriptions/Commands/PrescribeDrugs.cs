@@ -39,7 +39,7 @@ namespace LiveClinic.Consultation.Core.Application.Prescriptions.Commands
 
                await _prescriptionRepository.CreateOrUpdateAsync(order);
 
-               _mediator.Publish(new PrescriptionGenerated(order.Id));
+               await _mediator.Publish(new PrescriptionGenerated(order.Id));
 
                return Result.Success();
             }

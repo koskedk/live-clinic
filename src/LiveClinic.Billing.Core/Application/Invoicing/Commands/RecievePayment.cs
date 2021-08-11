@@ -4,9 +4,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
 using LiveClinic.Billing.Core.Application.Invoicing.Dtos;
-using LiveClinic.Billing.Core.Domain.Common;
 using LiveClinic.Billing.Core.Domain.InvoiceAggregate;
 using LiveClinic.Billing.Core.Domain.InvoiceAggregate.Events;
+using LiveClinic.SharedKernel.Common;
 using MediatR;
 using Serilog;
 
@@ -43,6 +43,9 @@ namespace LiveClinic.Billing.Core.Application.Invoicing.Commands
                     .LoadAll(x=>x.Id==request.PaymentDto.InvoiceId)
                     .FirstOrDefault();
 
+                if (null == invoice)
+                    throw new Exception("Invoice not found!");
+
                 invoice.MakePayment(payment);
                 var items = invoice.Items;
                 invoice.Clear();
@@ -50,7 +53,7 @@ namespace LiveClinic.Billing.Core.Application.Invoicing.Commands
                 await _invoiceRepository.CreateOrUpdateAsync<Payment, Guid>(new[] { payment });
 
                 if (invoice.Status == InvoiceStatus.Paid)
-                    await _mediator.Publish(new PaymentReceived(invoice.Id,invoice.OrderId));
+                    await _mediator.Publish(new PaymentReceived(invoice.OrderId, invoice.Id, payment.Id));
 
 
                 return Result.Success();
@@ -59,7 +62,7 @@ namespace LiveClinic.Billing.Core.Application.Invoicing.Commands
             {
                 var msg = $"Error {request.GetType().Name}";
                 Log.Error(msg, e);
-                return Result.Failure(msg);
+                return Result.Failure(e.Message);
             }
         }
     }

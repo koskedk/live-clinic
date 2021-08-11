@@ -35,7 +35,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="EventHandlers" />
+      <Folder Include="Application\Inventory" />
     </ItemGroup>
 
 </Project>

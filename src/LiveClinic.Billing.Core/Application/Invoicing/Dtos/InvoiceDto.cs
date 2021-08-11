@@ -5,9 +5,11 @@ namespace LiveClinic.Billing.Core.Application.Invoicing.Dtos
 {
     public class InvoiceDto
     {
+        public string Patient { get; set; }
         public Guid OrderId { get; set; }
         public string OrderNo { get; set; }
-        public string Patient { get; set; }
-        public List<InvoiceItemDto> Items { get; set; }=new List<InvoiceItemDto>();
+        DateTime OrderDate { get; set; }
+        string Provider { get; set;}
+        public List<InvoiceItemDto> OrderItems { get; set; }=new List<InvoiceItemDto>();
     }
 }

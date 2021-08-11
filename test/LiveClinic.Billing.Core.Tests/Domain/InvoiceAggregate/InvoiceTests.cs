@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
-using LiveClinic.Billing.Core.Domain.Common;
 using LiveClinic.Billing.Core.Domain.InvoiceAggregate;
 using LiveClinic.Billing.Core.Domain.PriceAggregate;
 using LiveClinic.Billing.Core.Tests.TestArtifacts;
 using LiveClinic.Billing.Infrastructure.Persistence;
-using NUnit.Framework;
+using LiveClinic.SharedKernel.Common;
 using Microsoft.Extensions.DependencyInjection;
+using NUnit.Framework;
 
 namespace LiveClinic.Billing.Core.Tests.Domain.InvoiceAggregate
 {

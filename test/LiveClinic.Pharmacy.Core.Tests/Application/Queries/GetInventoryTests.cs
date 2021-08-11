@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using LiveClinic.Pharmacy.Core.Application.Queries;
-using LiveClinic.Pharmacy.Core.Domain.DrugAggregate;
+using LiveClinic.Pharmacy.Core.Application.Inventory.Queries;
+using LiveClinic.Pharmacy.Core.Domain.Inventory;
 using LiveClinic.Pharmacy.Core.Tests.TestArtifacts;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;

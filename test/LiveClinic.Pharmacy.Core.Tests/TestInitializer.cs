@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Threading.Tasks;
+using LiveClinic.Pharmacy.Core.Tests.TestArtifacts;
 using LiveClinic.Pharmacy.Infrastructure;
+using MassTransit.Testing;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +18,10 @@ namespace LiveClinic.Pharmacy.Core.Tests
     public class TestInitializer
     {
         public static IServiceProvider ServiceProvider;
+        public static InMemoryTestHarness TestHarness;
+        public static ConsumerTestHarness<TestOrderFulfilledHandler> TestConsumerOrderFulfilled;
+        public static ConsumerTestHarness<TestOrderAcceptedHandler> TestConsumerOrderAccepted;
+        public static ConsumerTestHarness<TestOrderRejectedHandler> TestConsumerOrderRejected;
 
         [OneTimeSetUp]
         public void Init()
@@ -35,12 +43,18 @@ namespace LiveClinic.Pharmacy.Core.Tests
                 .AddDbContext<PharmacyDbContext>(x => x.UseSqlite(connection));
 
             services.AddPersistence(config);
-            services.AddEventBus(config, false);
-            services.AddCore();
+            services.AddEventBus(config, false,typeof(TestOrderAcceptedHandler));
+            services.AddCore(new List<Assembly>(){ typeof(TestOrderValidatedEventHandler).Assembly});
 
             ServiceProvider = services.BuildServiceProvider();
-
             ClearDb();
+            SetupBus().Wait();
+        }
+
+        [OneTimeTearDown]
+        public void End()
+        {
+            StopBus().Wait();
         }
 
         public static void ClearDb()
@@ -57,6 +71,21 @@ namespace LiveClinic.Pharmacy.Core.Tests
                 context.AddRange(t);
 
             context.SaveChanges();
+        }
+
+        private  static async Task SetupBus()
+        {
+            TestHarness = ServiceProvider.GetService<InMemoryTestHarness>();
+            TestConsumerOrderFulfilled = TestHarness.Consumer<TestOrderFulfilledHandler>();
+            TestConsumerOrderAccepted = TestHarness.Consumer<TestOrderAcceptedHandler>();
+            TestConsumerOrderRejected = TestHarness.Consumer<TestOrderRejectedHandler>();
+
+            await TestHarness.Start();
+        }
+
+        private  static async Task StopBus()
+        {
+            await TestHarness.Stop();
         }
     }
 }

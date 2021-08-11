@@ -28,7 +28,7 @@ namespace LiveClinic.Pharmacy
 
             try
             {
-                Log.Information($"Starting LiveBILL.Import...");;
+                Log.Information($"Starting LiveCLINIC.Pharmacy...");;
                 CreateHostBuilder(args).Build().Run();
             }
             catch (Exception ex)

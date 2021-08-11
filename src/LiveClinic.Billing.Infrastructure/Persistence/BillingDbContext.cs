@@ -1,8 +1,8 @@
 using System.Linq;
-using LiveClinic.Billing.Core.Domain.Common;
 using LiveClinic.Billing.Core.Domain.InvoiceAggregate;
 using LiveClinic.Billing.Core.Domain.PriceAggregate;
 using LiveClinic.Billing.Infrastructure.Seed;
+using LiveClinic.SharedKernel.Common;
 using LiveClinic.SharedKernel.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 

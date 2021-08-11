@@ -11,7 +11,7 @@ namespace LiveClinic.Billing.Core
     {
         public static IServiceCollection AddCore(this IServiceCollection services, List<Assembly> mediatrAssemblies = null)
         {
-            services.AddAutoMapper(typeof(InvoiceProfile));
+            services.AddAutoMapper(typeof(BillingProfile));
 
             if (null != mediatrAssemblies)
             {

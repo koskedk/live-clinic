@@ -19,7 +19,7 @@ namespace LiveClinic.Pharmacy.Infrastructure.Migrations
                 .HasAnnotation("ProductVersion", "5.0.8")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("LiveClinic.Pharmacy.Core.Domain.DrugAggregate.Drug", b =>
+            modelBuilder.Entity("LiveClinic.Pharmacy.Core.Domain.Inventory.Drug", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -39,7 +39,7 @@ namespace LiveClinic.Pharmacy.Infrastructure.Migrations
                     b.ToTable("Drugs");
                 });
 
-            modelBuilder.Entity("LiveClinic.Pharmacy.Core.Domain.DrugAggregate.StockTransaction", b =>
+            modelBuilder.Entity("LiveClinic.Pharmacy.Core.Domain.Inventory.StockTransaction", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -73,11 +73,14 @@ namespace LiveClinic.Pharmacy.Infrastructure.Migrations
                     b.ToTable("StockTransactions");
                 });
 
-            modelBuilder.Entity("LiveClinic.Pharmacy.Core.Domain.OrderAggregate.PrescriptionOrder", b =>
+            modelBuilder.Entity("LiveClinic.Pharmacy.Core.Domain.Orders.PrescriptionOrder", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("OrderId")
                         .HasColumnType("uniqueidentifier");
@@ -96,10 +99,10 @@ namespace LiveClinic.Pharmacy.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RPrescriptionOrders");
+                    b.ToTable("PrescriptionOrders");
                 });
 
-            modelBuilder.Entity("LiveClinic.Pharmacy.Core.Domain.OrderAggregate.PrescriptionOrderItem", b =>
+            modelBuilder.Entity("LiveClinic.Pharmacy.Core.Domain.Orders.PrescriptionOrderItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -130,30 +133,30 @@ namespace LiveClinic.Pharmacy.Infrastructure.Migrations
                     b.ToTable("PrescriptionOrderItems");
                 });
 
-            modelBuilder.Entity("LiveClinic.Pharmacy.Core.Domain.DrugAggregate.StockTransaction", b =>
+            modelBuilder.Entity("LiveClinic.Pharmacy.Core.Domain.Inventory.StockTransaction", b =>
                 {
-                    b.HasOne("LiveClinic.Pharmacy.Core.Domain.DrugAggregate.Drug", null)
+                    b.HasOne("LiveClinic.Pharmacy.Core.Domain.Inventory.Drug", null)
                         .WithMany("Transactions")
                         .HasForeignKey("DrugId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("LiveClinic.Pharmacy.Core.Domain.OrderAggregate.PrescriptionOrderItem", b =>
+            modelBuilder.Entity("LiveClinic.Pharmacy.Core.Domain.Orders.PrescriptionOrderItem", b =>
                 {
-                    b.HasOne("LiveClinic.Pharmacy.Core.Domain.OrderAggregate.PrescriptionOrder", null)
+                    b.HasOne("LiveClinic.Pharmacy.Core.Domain.Orders.PrescriptionOrder", null)
                         .WithMany("OrderItems")
                         .HasForeignKey("PrescriptionOrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("LiveClinic.Pharmacy.Core.Domain.DrugAggregate.Drug", b =>
+            modelBuilder.Entity("LiveClinic.Pharmacy.Core.Domain.Inventory.Drug", b =>
                 {
                     b.Navigation("Transactions");
                 });
 
-            modelBuilder.Entity("LiveClinic.Pharmacy.Core.Domain.OrderAggregate.PrescriptionOrder", b =>
+            modelBuilder.Entity("LiveClinic.Pharmacy.Core.Domain.Orders.PrescriptionOrder", b =>
                 {
                     b.Navigation("OrderItems");
                 });

@@ -1,5 +1,5 @@
 using System.Linq;
-using LiveClinic.Pharmacy.Core.Domain.DrugAggregate;
+using LiveClinic.Pharmacy.Core.Domain.Inventory;
 using NUnit.Framework;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
@@ -16,7 +16,6 @@ namespace LiveClinic.Pharmacy.Infrastructure.Tests.Repositories
         {
             _drugRepository = TestInitializer.ServiceProvider.GetService<IDrugRepository>();
         }
-
 
         [Test]
         public void should_Load_All_Drugs()
