@@ -9,6 +9,6 @@ namespace LiveClinic.Pharmacy.Core.Application.Inventory.Dtos
         public string BatchNo { get;set; }
         public double Quantity { get; set;}
         public string OrderRef { get; set;}
-        public Movement Movement { get; } = Movement.Received;
+        public Movement Movement { get; set; } = Movement.Received;
     }
 }

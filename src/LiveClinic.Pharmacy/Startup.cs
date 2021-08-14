@@ -33,8 +33,8 @@ namespace LiveClinic.Pharmacy
                 options.AddPolicy(name: MyAllowSpecificOrigins,
                     builder =>
                     {
-                        //builder.WithOrigins("http://localhost:6001","https://localhost:6443")
-                        builder.AllowAnyOrigin()
+                        builder.WithOrigins("http://localhost:9000","http://localhost:9001")
+                        //builder.AllowAnyOrigin()
                             .AllowAnyHeader()
                             .AllowAnyMethod();
                     });
@@ -66,12 +66,12 @@ namespace LiveClinic.Pharmacy
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "LiveClinic.Pharmacy v1"));
             }
 
-            app.UseHttpsRedirection();
+            //  app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseAuthorization();
             app.UseCors(MyAllowSpecificOrigins);
+            // app.UseAuthorization();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
             EnsureMigrationOfContext<PharmacyDbContext>(app);

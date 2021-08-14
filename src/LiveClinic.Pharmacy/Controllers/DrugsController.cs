@@ -27,7 +27,6 @@ namespace LiveClinic.Pharmacy.Controllers
         {
             try
             {
-                throw new Exception("No working");
                 var results = await _mediator.Send(new GetInventory());
 
 
@@ -53,6 +52,29 @@ namespace LiveClinic.Pharmacy.Controllers
             try
             {
                 var results = await _mediator.Send(new ReceiveStock(newStockDtos));
+
+                if (results.IsSuccess)
+                    return Ok();
+
+                throw new Exception(results.Error);
+            }
+            catch (Exception e)
+            {
+                var msg = $"Error occured";
+                Log.Error(e, msg);
+                return StatusCode(500, $"{msg} {e.Message}");
+            }
+        }
+
+        [HttpPost("AdjustStock")]
+        public async Task<IActionResult> Adjust([FromBody] AdjustStockDto newStockDtos)
+        {
+            if (null==newStockDtos)
+                return BadRequest();
+
+            try
+            {
+                var results = await _mediator.Send(new ReceiveStock( newStockDtos.Generate()));
 
                 if (results.IsSuccess)
                     return Ok();
