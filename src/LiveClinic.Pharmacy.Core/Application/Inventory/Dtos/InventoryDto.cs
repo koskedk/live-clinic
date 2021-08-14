@@ -12,6 +12,7 @@ namespace LiveClinic.Pharmacy.Core.Application.Inventory.Dtos
         public double QuantityOut { get; set; }
         public double QuantityStock { get; set; }
         public bool InStock { get; set; }
+        public string IsStocked => InStock ? "Yes" : "No";
         public List<StockTransactionDto> Transactions { get;set;} = new List<StockTransactionDto>();
 
         public override string ToString()

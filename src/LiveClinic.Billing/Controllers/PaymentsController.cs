@@ -9,7 +9,7 @@ using Serilog;
 namespace LiveClinic.Billing.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class PaymentsController : ControllerBase
     {
         private readonly IMediator _mediator;

@@ -12,12 +12,12 @@ using Serilog;
 namespace LiveClinic.Pharmacy.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    public class DrugController : ControllerBase
+    [Route("api/[controller]")]
+    public class DrugsController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public DrugController(IMediator mediator)
+        public DrugsController(IMediator mediator)
         {
             _mediator = mediator;
         }
@@ -27,7 +27,9 @@ namespace LiveClinic.Pharmacy.Controllers
         {
             try
             {
+                throw new Exception("No working");
                 var results = await _mediator.Send(new GetInventory());
+
 
                 if (results.IsSuccess)
                     return Ok(results.Value);
