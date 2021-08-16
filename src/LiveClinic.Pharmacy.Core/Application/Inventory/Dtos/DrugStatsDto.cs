@@ -1,8 +1,11 @@
+using System;
+
 namespace LiveClinic.Pharmacy.Core.Application.Inventory.Dtos
 {
     public class DrugStatsDto
     {
-        public string Drug  { get;set;  }
+        public Guid Id { get; set; }
+        public string Name  { get;set;  }
         public double QuantityInStock  { get;set;  }
         public double TotalIn { get;set;  }
         public double TotalOut { get;set;  }
@@ -12,7 +15,8 @@ namespace LiveClinic.Pharmacy.Core.Application.Inventory.Dtos
         }
         public DrugStatsDto(InventoryDto inventoryDto)
         {
-            Drug = inventoryDto.Name;
+            Id = inventoryDto.Id;
+            Name = inventoryDto.Name;
             QuantityInStock = inventoryDto.QuantityStock;
             TotalIn = inventoryDto.QuantityIn;
             TotalOut = inventoryDto.QuantityOut;
@@ -20,7 +24,7 @@ namespace LiveClinic.Pharmacy.Core.Application.Inventory.Dtos
 
         public override string ToString()
         {
-            return $"{Drug} [{QuantityInStock}]";
+            return $"{Name} [{QuantityInStock}]";
         }
     }
 }
