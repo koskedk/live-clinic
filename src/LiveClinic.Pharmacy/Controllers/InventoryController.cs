@@ -22,8 +22,8 @@ namespace LiveClinic.Pharmacy.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        [HttpGet("Summary")]
+        public async Task<IActionResult> GetSummary()
         {
             try
             {
@@ -31,6 +31,52 @@ namespace LiveClinic.Pharmacy.Controllers
 
                 if (results.IsSuccess)
                     return Ok(results.Value);
+
+                throw new Exception(results.Error);
+            }
+            catch (Exception e)
+            {
+                var msg = $"Error occured";
+                Log.Error(e, msg);
+                return StatusCode(500, $"{msg} {e.Message}");
+            }
+        }
+
+        [HttpPost("Receipt")]
+        public async Task<IActionResult> Adjust([FromBody] DrugReceiptDto drugReceiptDto)
+        {
+            if (null==drugReceiptDto)
+                return BadRequest();
+
+            try
+            {
+                var results = await _mediator.Send(new ReceiveStock( new[]{drugReceiptDto}.ToList()));
+
+                if (results.IsSuccess)
+                    return Ok();
+
+                throw new Exception(results.Error);
+            }
+            catch (Exception e)
+            {
+                var msg = $"Error occured";
+                Log.Error(e, msg);
+                return StatusCode(500, $"{msg} {e.Message}");
+            }
+        }
+
+        [HttpPost("Receipt/Batch")]
+        public async Task<IActionResult> Adjust([FromBody] List<DrugReceiptDto> drugReceiptDtos)
+        {
+            if (!drugReceiptDtos.Any())
+                return BadRequest();
+
+            try
+            {
+                var results = await _mediator.Send(new ReceiveStock(drugReceiptDtos));
+
+                if (results.IsSuccess)
+                    return Ok();
 
                 throw new Exception(results.Error);
             }

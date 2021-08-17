@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -25,6 +26,31 @@ namespace LiveClinic.Pharmacy.Core.Application.Inventory.Dtos
         public override string ToString()
         {
             return $"{TotalDrugs} Items | {TotalInStock} Available |{TotalOutOfStock} Out Of Stock";
+        }
+    }
+    public class DrugStatsDto
+    {
+        public Guid Id { get; set; }
+        public string Name  { get;set;  }
+        public double QuantityInStock  { get;set;  }
+        public double TotalIn { get;set;  }
+        public double TotalOut { get;set;  }
+
+        public DrugStatsDto()
+        {
+        }
+        public DrugStatsDto(InventoryDto inventoryDto)
+        {
+            Id = inventoryDto.Id;
+            Name = inventoryDto.Name;
+            QuantityInStock = inventoryDto.QuantityStock;
+            TotalIn = inventoryDto.QuantityIn;
+            TotalOut = inventoryDto.QuantityOut;
+        }
+
+        public override string ToString()
+        {
+            return $"{Name} [{QuantityInStock}]";
         }
     }
 }

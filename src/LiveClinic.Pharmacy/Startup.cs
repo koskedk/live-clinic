@@ -46,8 +46,8 @@ namespace LiveClinic.Pharmacy
             });
 
             services.AddPersistence(Configuration);
-            services.AddEventBus(Configuration)
-                .AddMassTransitHostedService();
+            services.AddEventBus(Configuration, false);
+                //.AddMassTransitHostedService();
             services.AddCore();
             services.Configure<ForwardedHeadersOptions>(options =>
             {

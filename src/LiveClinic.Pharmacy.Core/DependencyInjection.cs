@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using LiveClinic.Pharmacy.Core.Application.Inventory.Commands;
 using LiveClinic.Pharmacy.Core.Application.Inventory.Dtos;
+using LiveClinic.Pharmacy.Core.Application.Orders.Commands;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,7 +12,7 @@ namespace LiveClinic.Pharmacy.Core
     {
         public static IServiceCollection AddCore(this IServiceCollection services, List<Assembly> mediatrAssemblies = null)
         {
-            services.AddAutoMapper(typeof(PharmacyProfile));
+            services.AddAutoMapper(typeof(InventoryProfile));
 
             if (null != mediatrAssemblies)
             {
