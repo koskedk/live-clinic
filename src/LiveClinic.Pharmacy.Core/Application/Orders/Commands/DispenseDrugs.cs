@@ -38,8 +38,7 @@ namespace LiveClinic.Pharmacy.Core.Application.Orders.Commands
         {
             try
             {
-                var order = _orderRepository.LoadAll(x => x.OrderId == request.OrderId)
-                    .FirstOrDefault();
+                var order =await  _orderRepository.GetByOrder(request.OrderId);
 
                 if (null == order)
                     throw new Exception("No order found");
@@ -58,13 +57,16 @@ namespace LiveClinic.Pharmacy.Core.Application.Orders.Commands
                     await _drugRepository.CreateOrUpdateAsync<StockTransaction,Guid>(new[] {dispenseStock});
                 }
 
+                order.Close();
+                _orderRepository.CreateOrUpdateAsync(order);
+
                 await _mediator.Publish(new DrugsDispensed(request.OrderId), cancellationToken);
 
                 return Result.Success();
             }
             catch (Exception e)
             {
-                var msg = $"Error {request.GetType().Name}";
+                var msg = $"Error {request.GetType().Name},{e.Message}";
                 Log.Error(e, msg);
                 return Result.Failure(msg);
             }

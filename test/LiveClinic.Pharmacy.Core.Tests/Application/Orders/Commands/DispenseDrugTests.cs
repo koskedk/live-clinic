@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using LiveClinic.Contracts;
-using LiveClinic.Pharmacy.Core.Application.Inventory.Commands;
 using LiveClinic.Pharmacy.Core.Application.Inventory.Queries;
 using LiveClinic.Pharmacy.Core.Application.Orders.Commands;
 using LiveClinic.Pharmacy.Core.Domain.Inventory;
@@ -13,7 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using Serilog;
 
-namespace LiveClinic.Pharmacy.Core.Tests.Application.Inventory.Commands
+namespace LiveClinic.Pharmacy.Core.Tests.Application.Orders.Commands
 {
     [TestFixture]
     public class DispenseDrugTests

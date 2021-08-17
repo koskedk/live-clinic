@@ -6,6 +6,7 @@ using LiveClinic.Pharmacy.Core.Application.Inventory.Commands;
 using LiveClinic.Pharmacy.Core.Application.Inventory.Dtos;
 using LiveClinic.Pharmacy.Core.Application.Inventory.Queries;
 using LiveClinic.Pharmacy.Core.Application.Orders.Commands;
+using LiveClinic.Pharmacy.Core.Application.Orders.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
@@ -21,6 +22,46 @@ namespace LiveClinic.Pharmacy.Controllers
         public OrdersController(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+        [HttpGet("Active")]
+        public async Task<IActionResult> GetActive()
+        {
+            try
+            {
+                var results = await _mediator.Send(new GetActiveOrders());
+
+                if (results.IsSuccess)
+                    return Ok(results.Value);
+
+                throw new Exception(results.Error);
+            }
+            catch (Exception e)
+            {
+                var msg = $"Error occured";
+                Log.Error(e, msg);
+                return StatusCode(500, $"{msg} {e.Message}");
+            }
+        }
+
+        [HttpGet("Active/Order/{orderId}")]
+        public async Task<IActionResult> GetOrderItems(Guid orderId)
+        {
+            try
+            {
+                var results = await _mediator.Send(new GetActiveOrders(orderId));
+
+                if (results.IsSuccess)
+                    return Ok(results.Value.FirstOrDefault());
+
+                throw new Exception(results.Error);
+            }
+            catch (Exception e)
+            {
+                var msg = $"Error occured";
+                Log.Error(e, msg);
+                return StatusCode(500, $"{msg} {e.Message}");
+            }
         }
 
         [HttpPost("FullDispense")]

@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using Serilog;
 
-namespace LiveClinic.Pharmacy.Core.Tests.Application.Queries
+namespace LiveClinic.Pharmacy.Core.Tests.Application.Inventory.Queries
 {
     [TestFixture]
     public class GetInventoryStatsTests

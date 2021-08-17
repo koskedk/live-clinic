@@ -33,8 +33,8 @@ namespace LiveClinic.Pharmacy
                 options.AddPolicy(name: MyAllowSpecificOrigins,
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:9000","http://localhost:9001")
-                        //builder.AllowAnyOrigin()
+                        builder.WithOrigins("http://localhost:9000", "http://localhost:9001")
+                            //builder.AllowAnyOrigin()
                             .AllowAnyHeader()
                             .AllowAnyMethod();
                     });
@@ -46,8 +46,8 @@ namespace LiveClinic.Pharmacy
             });
 
             services.AddPersistence(Configuration);
-            services.AddEventBus(Configuration, false);
-                //.AddMassTransitHostedService();
+            services.AddEventBus(Configuration)
+                .AddMassTransitHostedService();
             services.AddCore();
             services.Configure<ForwardedHeadersOptions>(options =>
             {

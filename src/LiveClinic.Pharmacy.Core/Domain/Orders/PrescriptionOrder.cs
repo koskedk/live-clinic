@@ -14,12 +14,20 @@ namespace LiveClinic.Pharmacy.Core.Domain.Orders
         public string Patient { get; set; }
         public string Provider { get; set; }
         public Guid? PaymentId { get; set; }
+        public PrescriptionStatus Status { get; set; }
         public List<PrescriptionOrderItem> OrderItems { get; set; } = new List<PrescriptionOrderItem>();
         [NotMapped] public bool AllInStock =>  OrderItems.All(x => x.IsStocked);
         [NotMapped] public bool IsReserved =>null!=PaymentId && PaymentId.HasValue && PaymentId != Guid.Empty;
+
         public void SetPaymentInfo(Guid paymentId)
         {
             PaymentId = paymentId;
+            Status = PrescriptionStatus.Active;
+        }
+
+        public void Close()
+        {
+            Status = PrescriptionStatus.Closed;
         }
 
         public bool HasNoAssignedIds()
@@ -30,7 +38,5 @@ namespace LiveClinic.Pharmacy.Core.Domain.Orders
         {
             OrderItems.ForEach(x => x.PrescriptionOrderId = Id);
         }
-
-
     }
 }
