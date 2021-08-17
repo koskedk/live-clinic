@@ -3,9 +3,9 @@ using LiveClinic.Pharmacy.Core.Domain.Inventory;
 
 namespace LiveClinic.Pharmacy.Core.Application.Inventory.Dtos
 {
-    public class PharmacyProfile : Profile
+    public class InventoryProfile : Profile
     {
-        public PharmacyProfile()
+        public InventoryProfile()
         {
             CreateMap<StockTransaction, StockTransactionDto>();
             CreateMap<Drug, InventoryDto>();

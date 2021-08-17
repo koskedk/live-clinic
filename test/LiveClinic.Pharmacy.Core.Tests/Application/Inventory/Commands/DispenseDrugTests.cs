@@ -4,6 +4,7 @@ using System.Linq;
 using LiveClinic.Contracts;
 using LiveClinic.Pharmacy.Core.Application.Inventory.Commands;
 using LiveClinic.Pharmacy.Core.Application.Inventory.Queries;
+using LiveClinic.Pharmacy.Core.Application.Orders.Commands;
 using LiveClinic.Pharmacy.Core.Domain.Inventory;
 using LiveClinic.Pharmacy.Core.Domain.Orders;
 using LiveClinic.Pharmacy.Core.Tests.TestArtifacts;

@@ -1,33 +1,34 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using LiveClinic.Consultation.Core.Application.Prescriptions.Commands;
-using LiveClinic.Consultation.Core.Application.Prescriptions.Dtos;
+using LiveClinic.Pharmacy.Core.Application.Inventory.Commands;
+using LiveClinic.Pharmacy.Core.Application.Inventory.Dtos;
+using LiveClinic.Pharmacy.Core.Application.Inventory.Queries;
+using LiveClinic.Pharmacy.Core.Application.Orders.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
-namespace LiveClinic.Consultation.Controllers
+namespace LiveClinic.Pharmacy.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class PrescriptionsController : ControllerBase
+    public class OrdersController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public PrescriptionsController(IMediator mediator)
+        public OrdersController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> PostOrder([FromBody] PrescriptionDto orderDto)
+        [HttpPost("FullDispense")]
+        public async Task<IActionResult> Post(Guid orderId)
         {
-            if (null == orderDto)
-                return BadRequest();
-
             try
             {
-                var results = await _mediator.Send(new PrescribeDrugs(orderDto));
+                var results = await _mediator.Send(new DispenseDrugs(orderId));
 
                 if (results.IsSuccess)
                     return Ok();

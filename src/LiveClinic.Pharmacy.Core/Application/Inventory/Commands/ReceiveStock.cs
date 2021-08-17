@@ -13,9 +13,9 @@ namespace LiveClinic.Pharmacy.Core.Application.Inventory.Commands
 {
     public class ReceiveStock : IRequest<Result>
     {
-        public List<NewStockDto> Stocks { get; }
+        public List<DrugReceiptDto> Stocks { get; }
 
-        public ReceiveStock(List<NewStockDto> stocks)
+        public ReceiveStock(List<DrugReceiptDto> stocks)
         {
             Stocks = stocks;
         }

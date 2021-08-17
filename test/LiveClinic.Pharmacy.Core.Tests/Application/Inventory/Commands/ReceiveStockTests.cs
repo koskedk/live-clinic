@@ -33,9 +33,9 @@ namespace LiveClinic.Pharmacy.Core.Tests.Application.Inventory.Commands
         [Test]
         public void should_Receive_Stock()
         {
-            var stocks = new List<NewStockDto>
+            var stocks = new List<DrugReceiptDto>
             {
-                new NewStockDto() {DrugId = _drug.Id, BatchNo = "LEO", Quantity = 9, OrderRef = "POX"}
+                new DrugReceiptDto() {DrugId = _drug.Id, BatchNo = "LEO", Quantity = 9, OrderRef = "POX"}
             };
 
             var res = _mediator.Send( new  ReceiveStock(stocks)).Result;

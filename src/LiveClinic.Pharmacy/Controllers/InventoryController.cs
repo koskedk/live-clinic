@@ -12,22 +12,22 @@ using Serilog;
 namespace LiveClinic.Pharmacy.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    public class DrugController : ControllerBase
+    [Route("api/[controller]")]
+    public class InventoryController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public DrugController(IMediator mediator)
+        public InventoryController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        [HttpGet("Summary")]
+        public async Task<IActionResult> GetSummary()
         {
             try
             {
-                var results = await _mediator.Send(new GetInventory());
+                var results = await _mediator.Send(new GetInventoryStats());
 
                 if (results.IsSuccess)
                     return Ok(results.Value);
@@ -42,15 +42,15 @@ namespace LiveClinic.Pharmacy.Controllers
             }
         }
 
-        [HttpPost("NewStock")]
-        public async Task<IActionResult> Post([FromBody] List<NewStockDto> newStockDtos)
+        [HttpPost("Receipt")]
+        public async Task<IActionResult> Adjust([FromBody] DrugReceiptDto drugReceiptDto)
         {
-            if (!newStockDtos.Any())
+            if (null==drugReceiptDto)
                 return BadRequest();
 
             try
             {
-                var results = await _mediator.Send(new ReceiveStock(newStockDtos));
+                var results = await _mediator.Send(new ReceiveStock( new[]{drugReceiptDto}.ToList()));
 
                 if (results.IsSuccess)
                     return Ok();
@@ -65,12 +65,15 @@ namespace LiveClinic.Pharmacy.Controllers
             }
         }
 
-        [HttpPost("FullDispense")]
-        public async Task<IActionResult> Post(Guid orderId)
+        [HttpPost("Receipt/Batch")]
+        public async Task<IActionResult> Adjust([FromBody] List<DrugReceiptDto> drugReceiptDtos)
         {
+            if (!drugReceiptDtos.Any())
+                return BadRequest();
+
             try
             {
-                var results = await _mediator.Send(new DispenseDrugs(orderId));
+                var results = await _mediator.Send(new ReceiveStock(drugReceiptDtos));
 
                 if (results.IsSuccess)
                     return Ok();

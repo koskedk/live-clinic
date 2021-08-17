@@ -9,7 +9,7 @@ using LiveClinic.Pharmacy.Core.Domain.Orders;
 using MediatR;
 using Serilog;
 
-namespace LiveClinic.Pharmacy.Core.Application.Inventory.Commands
+namespace LiveClinic.Pharmacy.Core.Application.Orders.Commands
 {
     public class DispenseDrugs : IRequest<Result>
     {
