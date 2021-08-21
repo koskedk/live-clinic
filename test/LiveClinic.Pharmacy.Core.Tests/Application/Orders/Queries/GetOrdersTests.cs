@@ -11,7 +11,7 @@ using NUnit.Framework;
 namespace LiveClinic.Pharmacy.Core.Tests.Application.Orders.Queries
 {
     [TestFixture]
-    public class GetActiveOrdersTests
+    public class GetOrdersTests
     {
         private IMediator _mediator;
         private List<PrescriptionOrder> _orders;
@@ -32,7 +32,7 @@ namespace LiveClinic.Pharmacy.Core.Tests.Application.Orders.Queries
         [Test]
         public void should_Get_All()
         {
-            var stats = _mediator.Send( new  GetActiveOrders()).Result;
+            var stats = _mediator.Send( new  GetOrders(PrescriptionStatus.Active)).Result;
             Assert.NotNull(stats.IsSuccess);
             Assert.True(stats.Value.Any());
         }

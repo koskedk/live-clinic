@@ -11,26 +11,28 @@ using Serilog;
 
 namespace LiveClinic.Pharmacy.Core.Application.Orders.Queries
 {
-    public class GetActiveOrders : IRequest<Result<List<PrescriptionOrder>>>
+    public class GetOrders : IRequest<Result<List<PrescriptionOrder>>>
     {
         public Guid? OrderId { get; }
+        public PrescriptionStatus Status { get; }
 
-        public GetActiveOrders(Guid? orderId = null)
+        public GetOrders(PrescriptionStatus status, Guid? orderId = null)
         {
+            Status = status;
             OrderId = orderId;
         }
     }
 
-    public class GetActiveOrdersHandler : IRequestHandler<GetActiveOrders, Result<List<PrescriptionOrder>>>
+    public class GetOrdersHandler : IRequestHandler<GetOrders, Result<List<PrescriptionOrder>>>
     {
         private readonly IPrescriptionOrderRepository _prescriptionOrderRepository;
 
-        public GetActiveOrdersHandler(IPrescriptionOrderRepository prescriptionOrderRepository)
+        public GetOrdersHandler(IPrescriptionOrderRepository prescriptionOrderRepository)
         {
             _prescriptionOrderRepository = prescriptionOrderRepository;
         }
 
-        public Task<Result<List<PrescriptionOrder>>> Handle(GetActiveOrders request, CancellationToken cancellationToken)
+        public Task<Result<List<PrescriptionOrder>>> Handle(GetOrders request, CancellationToken cancellationToken)
         {
             try
             {
@@ -41,13 +43,13 @@ namespace LiveClinic.Pharmacy.Core.Application.Orders.Queries
                     orders = _prescriptionOrderRepository
                         .LoadAll(x =>
                             x.OrderId == request.OrderId.Value &&
-                            x.Status == PrescriptionStatus.Active)
+                            x.Status == request.Status)
                         .ToList();
                 }
                 else
                 {
                     orders = _prescriptionOrderRepository
-                        .LoadAll(x => x.Status == PrescriptionStatus.Active)
+                        .LoadAll(x => x.Status == request.Status)
                         .ToList();
                 }
 

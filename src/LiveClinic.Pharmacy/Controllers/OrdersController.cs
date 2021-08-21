@@ -7,6 +7,7 @@ using LiveClinic.Pharmacy.Core.Application.Inventory.Dtos;
 using LiveClinic.Pharmacy.Core.Application.Inventory.Queries;
 using LiveClinic.Pharmacy.Core.Application.Orders.Commands;
 using LiveClinic.Pharmacy.Core.Application.Orders.Queries;
+using LiveClinic.Pharmacy.Core.Domain.Orders;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
@@ -29,7 +30,7 @@ namespace LiveClinic.Pharmacy.Controllers
         {
             try
             {
-                var results = await _mediator.Send(new GetActiveOrders());
+                var results = await _mediator.Send(new GetOrders(PrescriptionStatus.Active));
 
                 if (results.IsSuccess)
                     return Ok(results.Value);
@@ -49,7 +50,7 @@ namespace LiveClinic.Pharmacy.Controllers
         {
             try
             {
-                var results = await _mediator.Send(new GetActiveOrders(orderId));
+                var results = await _mediator.Send(new GetOrders(PrescriptionStatus.Active, orderId));
 
                 if (results.IsSuccess)
                     return Ok(results.Value.FirstOrDefault());
@@ -63,6 +64,47 @@ namespace LiveClinic.Pharmacy.Controllers
                 return StatusCode(500, $"{msg} {e.Message}");
             }
         }
+
+        [HttpGet("History")]
+        public async Task<IActionResult> GetHistory()
+        {
+            try
+            {
+                var results = await _mediator.Send(new GetOrders(PrescriptionStatus.Closed));
+
+                if (results.IsSuccess)
+                    return Ok(results.Value);
+
+                throw new Exception(results.Error);
+            }
+            catch (Exception e)
+            {
+                var msg = $"Error occured";
+                Log.Error(e, msg);
+                return StatusCode(500, $"{msg} {e.Message}");
+            }
+        }
+
+        [HttpGet("History/Order/{orderId}")]
+        public async Task<IActionResult> GetHisOrderItems(Guid orderId)
+        {
+            try
+            {
+                var results = await _mediator.Send(new GetOrders(PrescriptionStatus.Closed, orderId));
+
+                if (results.IsSuccess)
+                    return Ok(results.Value.FirstOrDefault());
+
+                throw new Exception(results.Error);
+            }
+            catch (Exception e)
+            {
+                var msg = $"Error occured";
+                Log.Error(e, msg);
+                return StatusCode(500, $"{msg} {e.Message}");
+            }
+        }
+
 
         [HttpPost("FullDispense")]
         public async Task<IActionResult> Post(Guid orderId)
